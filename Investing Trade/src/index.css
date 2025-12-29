@@ -1,26 +1,24 @@
 /* src/index.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss"; /* 최신 v4 방식: 기존 base, components, utilities를 대체합니다 */
 
-/* 모든 요소의 크기 계산 방식 고정 */
+/* 1. 모든 요소의 박스 크기 계산 방식 고정 */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
+/* 2. html부터 root까지 높이를 100%로 강제 전달 */
 html, body, #root {
   width: 100%;
-  height: 100%; /* 브라우저 높이에 딱 맞춤 */
+  height: 100%;
   margin: 0;
-  padding: 12px;
-  overflow: hidden; /* 스크롤 절대 방지 */
-  background-color: white;
-  
+  padding: 0;
+  overflow: hidden; 
 }
 
+/* 3. body는 단순히 중앙 정렬 도구로만 사용 */
 body {
-  border: gray solid 2px;
-  border-radius: 4px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white; 
 }
