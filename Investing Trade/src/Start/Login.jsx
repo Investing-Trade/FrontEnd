@@ -1,18 +1,17 @@
-import React from 'react';
 import businessMan from '../assets/bussiness-man.png'; 
 import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
 
 const Login = () => {
   return (
-    <div className="w-full h-full flex items-center justify-center bg-white-800 py-3">
+    <div className="w-full h-full flex items-center justify-center bg-white-800 mx-2 px-4  py-3">
       
       {/* 부모 카드: 850px 너비 고정 및 가로 배치 */}
       <div className="bg-white rounded-3xl border border-gray-200 flex flex-row items-stretch w-full max-w-4xl h-[750px] overflow-hidden shadow-2xl">
         
         {/* [왼쪽 섹션] 브랜드 컬러와 서비스 소개 */}
         <div className="flex-1 bg-blue-600 p-10 text-white flex flex-col justify-center items-center shrink-0">
-          <h1 className="text-6xl font-bold mb-40 tracking-wider">NewsPin</h1>
+          <h1 className="font-agbalumo text-6xl mb-40 tracking-wider">NewsPin</h1>
           
           {/* 이미지 레이어링: 상대 위치 조정 */}
           <div className="relative w-40 h-28 mb-6">
@@ -29,8 +28,8 @@ const Login = () => {
             />
           </div>
 
-<div className='mt-8'>
-            <p className="text-center text-lg font-semibold leading-relaxed py-2">NewsPin은 뉴스 기반 투자 학습 플랫폼입니다.</p>
+<div className='mt-16'>
+            <p className="text-center text-lg font-semibold  font-agbalumo leading-relaxed py-2 px-2">NewsPin은 뉴스 기반 투자 학습 플랫폼입니다.</p>
             <p className="text-center text-lg font-semibold leading-relaxed py-1">경제 뉴스를 읽고 호재 및 악재를 판단하며,</p>
             <p className="text-center text-lg font-semibold leading-relaxed py-1">AI 피드백으로 분석 감각을 키워보세요.</p>            
             <p className="text-center text-lg font-semibold leading-relaxed py-1">실제 데이터를 활용한 모의 투자로 안전한 학습을 경험할 수 있습니다.</p>            

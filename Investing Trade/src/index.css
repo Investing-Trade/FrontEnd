@@ -22,3 +22,15 @@ body {
   justify-content: center;
   background-color: white; 
 }
+
+@layer utilities {
+  .font-permanent {
+    font-family: 'Permanent Marker', cursive;
+  }
+  .font-berkshire {
+    font-family: 'Berkshire Swash', cursive;
+  }
+  .font-agbalumo {
+    font-family: 'Agbalumo', system-ui;
+  }
+}
