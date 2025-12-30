@@ -1,8 +1,28 @@
 import businessMan from '../assets/bussiness-man.png'; 
 import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
+import {useForm} from 'react-hook-form';
 
 const Login = () => {
+  // 1. useForm 초기화
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // 2. 로그인 제출 핸들러
+  const onSubmit = (data) => {
+    console.log("로그인 시도 데이터:", data);
+    alert("로그인 성공!");
+  };
+
+  /*정규식 설명:
+   [a-zA-Z가-힣\d@$!%*?&] : 영문, 한글, 숫자, 지정된 특수문자 허용
+   * {8,} : 위 글자들의 조합으로 8자 이상
+   */
+
+  const authRegex = /^[a-zA-Z가-힣\d@$!%*?&]{8,}$/;
   return (
     <div className="w-full h-full flex items-center justify-center bg-white-800 mx-2 px-4  py-3">
       
@@ -40,32 +60,52 @@ const Login = () => {
         {/* [오른쪽 섹션] 로그인 폼 */}
         <div className="flex-1 p-12 flex flex-col justify-center bg-white shrink-0">
           <h2 className="text-5xl font-bold text-center mb-20 text-gray-800">로그인</h2>
-          <form className="space-y-7" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
+            {/* 아이디 필드 */}
             <div className="space-y-2 my-5">
-                <p className='font-bold text-lg pb-1'>아이디</p>
-              <label className=" font-bold text-gray-600 text-lg"> <input 
+              <p className='font-bold text-lg pb-1'>아이디</p>
+              <input 
                 type="text" 
                 placeholder="아이디를 입력해주세요." 
-                className="w-full px-4 py-3 text-2xl font-bold border border-gray-200 rounded-lg outline-none text-sm bg-gray-50 focus:border-[#5D6DED] focus:ring-1 focus:ring-[#5D6DED] transition-all"
-              /></label>           
-             
+                {...register("userId", { 
+                  required: "아이디를 입력해주세요.",
+                  pattern: {
+                    value: authRegex,
+                    message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
+                  }
+                })}
+                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${
+                  errors.userId ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-[#5D6DED]'
+                }`}
+              />
+              {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
             </div>
             
+            {/* 비밀번호 필드 */}
             <div className="space-y-2">
-            <p className='font-bold text-lg pb-1'>비밀번호</p>
-              <label className="text-lg font-bold text-gray-600"><input 
+              <p className='font-bold text-lg pb-1'>비밀번호</p>
+              <input 
                 type="password" 
                 placeholder="비밀번호를 입력해주세요." 
-                className="w-full px-4 py-3 border font-bold border-gray-200 rounded-lg outline-none text-sm bg-gray-50 focus:border-[#5D6DED] focus:ring-1 focus:ring-[#5D6DED] transition-all"
-              /></label>
-              
+                {...register("password", { 
+                  required: "비밀번호를 입력해주세요.",
+                  pattern: {
+                    value: authRegex,
+                    message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
+                  }
+                })}
+                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${
+                  errors.password ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 focus:border-[#5D6DED]'
+                }`}
+              />
+              {errors.password && <p className="text-red-500 text-xs font-bold">{errors.password.message}</p>}
             </div>
 
-            <button className="w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-bold py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all">
+            <button type="submit" className="w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-bold py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all">
               ✈️ 투자 여정 시작하기
             </button>
             <div className="relative py-5">
-          <hr className='text-gray-500 py-1' />
+              <hr className='text-gray-500 py-1' />
             </div>
           </form>
 
