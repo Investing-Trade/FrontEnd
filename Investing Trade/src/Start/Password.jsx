@@ -1,6 +1,7 @@
 import businessMan from '../assets/bussiness-man.png';
 import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
+import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react'; // useState 추가
 
@@ -119,7 +120,7 @@ const Password = () => {
             {/* 인증 코드 전송 버튼 */}
             {!isCodeSent && (
               <button type="submit" className="w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-jua py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all">
-                ✈️ 이메일로 인증 코드 전송
+                📩 이메일로 인증 코드 전송
               </button>
             )}
 
@@ -164,10 +165,19 @@ const Password = () => {
                   />
                   {errors.newPasswordConfirm && <p className="text-red-500 text-xs font-bold">{errors.newPasswordConfirm.message}</p>}
                 </div>
+                <form action="">
+                  <button
+                    type="submit"
+                    className="w-full flex flex-row items-center justify-center gap-2 cursor-pointer bg-blue-600 text-white font-jua py-3 rounded-lg shadow-md hover:bg-blue-500 active:scale-[0.98] transition-all"
+                  >
+                    {/* 1. 이미지 크기를 w-6 정도로 줄여야 텍스트와 높이가 잘 맞습니다 */}
+                    <img src={paperplane} alt="plane" className="w-6 h-auto" />
 
-                <button type="submit" className="w-full cursor-pointer bg-blue-600 text-white font-jua py-3 rounded-lg shadow-md hover:bg-blue-500 active:scale-[0.98] transition-all">
-                  비밀번호 변경 완료
-                </button>
+                    {/* 2. 텍스트와 이미지가 이제 같은 flex 컨테이너 안에서 가로로 배치됩니다 */}
+                    <span className="leading-none">비밀번호 변경 및 로그인 화면으로 이동</span>
+                  </button>
+                </form>
+
               </div>
             )}
           </form>
