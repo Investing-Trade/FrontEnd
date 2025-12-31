@@ -69,11 +69,11 @@ const Login = () => {
 
         {/* [오른쪽 섹션] 로그인 폼 */}
         <div className="flex-1 p-12 flex flex-col justify-center bg-white shrink-0">
-          <h2 className="text-5xl font-bold text-center mb-20 text-gray-800">로그인</h2>
+          <h2 className="text-5xl font-jua text-center mb-20 text-gray-800">로그인</h2>
           <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
             {/* 아이디 필드 */}
             <div className="space-y-2 my-5">
-              <p className='font-bold text-lg pb-1'>아이디</p>
+              <p className='font-jua text-lg pb-1'>아이디</p>
               <input 
                 type="text" 
                 placeholder="아이디를 입력해주세요." 
@@ -91,7 +91,7 @@ const Login = () => {
             
             {/* 비밀번호 필드 */}
             <div className="space-y-2">
-              <p className='font-bold text-lg pb-1'>비밀번호</p>
+              <p className='font-jua text-lg pb-1'>비밀번호</p>
               <input 
                 type="password" 
                 placeholder="비밀번호를 입력해주세요." 
@@ -107,7 +107,7 @@ const Login = () => {
               {errors.password && <p className="text-red-500 text-xs font-bold">{errors.password.message}</p>}
             </div>
 
-            <button type="submit" className="w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-bold py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all">
+            <button type="submit" className="w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-jua py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all">
               ✈️ 투자 여정 시작하기
             </button>
             <div className="relative py-5">
@@ -116,9 +116,9 @@ const Login = () => {
           </form>
 
           <div className="flex justify-center gap-6 text-[10px] text-gray-400 font-medium">
-            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-bold transition-colors cursor-pointer">회원가입</p>
+            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">회원가입</p>
             <span className="text-gray-500 text-lg">|</span>
-            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-bold transition-colors cursor-pointer">비밀번호 찾기</p>
+            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">비밀번호 찾기</p>
           </div>
         </div>
 
