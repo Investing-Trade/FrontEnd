@@ -5,7 +5,12 @@ import SignUp from './Start/SignUp.jsx'
 function App() {
   return (
     <div >
-      <Login/>
+      <Routes>
+        <Route path="/" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/password" element={<Password />} />
+        <Route path="/signup" element={<SignUp />} /> 
+      </Routes>
     </div>
   )
 }
