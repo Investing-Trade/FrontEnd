@@ -4,8 +4,11 @@ import predictiveAnalytics from '../assets/predictive-chart.png';
 import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
+
     // 페이지 접속 시 타이틀 변경
     useEffect(() => {
         document.title = "NewsPin - SignUp";
@@ -153,7 +156,7 @@ const SignUp = () => {
                             className="w-full bg-blue-600 pt-4 border border-white text-sm cursor-pointer text-white font-bold py-4 rounded-lg mt-12 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                         >
                             <img src={paperplane} alt="plane" className="w-5 h-5" />
-                            <span>가입 완료! 로그인 후 투자 감각을 깨워보세요.</span>
+                            <span onClick={() => navigate('/login')} >가입 완료! 로그인 후 투자 감각을 깨워보세요.</span>
                         </button>
                     </form>
                 </div>

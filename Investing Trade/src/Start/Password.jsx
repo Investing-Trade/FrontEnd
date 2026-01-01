@@ -4,9 +4,12 @@ import predictiveAnalytics from '../assets/predictive-chart.png';
 import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
 const Password = () => {
+  const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
+
   // 1. 인증 메일 전송 여부를 확인하는 상태
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [generatedCode, setGeneratedCode] = useState(""); // 생성된 코드 저장용 상태
@@ -39,7 +42,7 @@ const Password = () => {
     if (!isCodeSent) {
       // [1단계] 인증 코드 생성 및 이메일 발송
       setIsSubmitting(true);
-      
+
       // 6자리 무작위 코드 생성 (100000 ~ 999999)
       const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
       setGeneratedCode(randomCode);
@@ -61,7 +64,7 @@ const Password = () => {
           'YOUR_PUBLIC_KEY'
         );
         */
-        
+
         console.log("발송된 인증코드(테스트용):", randomCode);
         alert(`입력하신 ${data.email}로 인증 코드가 발송되었습니다.`);
         setIsCodeSent(true);
@@ -84,7 +87,7 @@ const Password = () => {
         userId: data.userId,
         newPassword: data.newPassword
       });
-      
+
       alert("비밀번호가 성공적으로 변경되었습니다! 로그인 화면으로 이동합니다.");
       window.location.href = "/login";
     }
@@ -158,8 +161,8 @@ const Password = () => {
 
             {/* 인증 코드 전송 버튼 */}
             {!isCodeSent && (
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isSubmitting}
                 className={`w-full bg-blue-600 border border-white text-lg cursor-pointer text-white font-jua py-3 rounded-lg mt-4 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all ${isSubmitting ? 'opacity-50' : ''}`}
               >
@@ -216,7 +219,7 @@ const Password = () => {
                   className="w-full flex flex-row items-center justify-center gap-2 cursor-pointer bg-blue-600 text-white font-jua py-3 rounded-lg shadow-md hover:bg-blue-500 active:scale-[0.98] transition-all"
                 >
                   <img src={paperplane} alt="plane" className="w-6 h-auto" />
-                  <span className="leading-none">{isSubmitting ? "변경 중..." : "비밀번호 변경 및 로그인 화면으로 이동"}</span>
+                  <span onClick={() => navigate('/login')} className="leading-none">{isSubmitting ? "변경 중..." : "비밀번호 변경 및 로그인 화면으로 이동"}</span>
                 </button>
               </div>
             )}

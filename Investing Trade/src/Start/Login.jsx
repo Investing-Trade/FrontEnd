@@ -1,10 +1,13 @@
 import businessMan from '../assets/bussiness-man.png';
 import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react'; // useEffect 추가
 
 const Login = () => {
+  const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
+
   // 1. 페이지 접속 시 타이틀 변경
   useEffect(() => {
     document.title = "NewsPin - Login";
@@ -37,25 +40,25 @@ const Login = () => {
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-white-800 mx-2 px-4 py-3">
-      
+
       {/* 부모 카드 */}
       <div className="bg-white rounded-3xl border border-gray-200 flex flex-row items-stretch w-full max-w-4xl h-[750px] overflow-hidden shadow-2xl">
-        
+
         {/* [왼쪽 섹션] 브랜드 컬러와 서비스 소개 */}
         <div className="flex-1 bg-blue-600 p-10 text-white flex flex-col justify-center items-center shrink-0">
           <h1 className="font-agbalumo text-6xl mb-40 tracking-wider">NewsPin</h1>
-          
+
           <div className="relative w-40 h-28 mb-6">
             <img src={predictiveAnalytics} alt="predictiveanalytics" className="w-48 h-auto z-15 absolute left-2 bottom-24 drop-shadow-lg" />
-            <img 
-              src={businessMan} 
-              alt="man" 
-              className="w-48 h-auto z-10 absolute right-26 drop-shadow-lg" 
+            <img
+              src={businessMan}
+              alt="man"
+              className="w-48 h-auto z-10 absolute right-26 drop-shadow-lg"
             />
-            <img 
-              src={webAnalytics} 
-              alt="chart" 
-              className="w-48 h-auto z-10 absolute left-28 top-0" 
+            <img
+              src={webAnalytics}
+              alt="chart"
+              className="w-48 h-auto z-10 absolute left-28 top-0"
             />
           </div>
 
@@ -63,7 +66,7 @@ const Login = () => {
             <p className="text-center text-lg font-semibold font-agbalumo leading-relaxed py-2">NewsPin은 뉴스 투자 학습 플랫폼입니다.</p>
             <p className="text-center text-lg font-semibold leading-relaxed py-1">경제 뉴스를 읽고 호재 및 악재를 판단하며,</p>
             <p className="text-center text-lg font-semibold leading-relaxed py-1">AI 피드백으로 분석 감각을 키워보세요.</p>
-            <p className="text-center text-lg font-semibold leading-relaxed py-1">실제 데이터를 활용한 모의 투자로 안전한 학습을 경험할 수 있습니다.</p>            
+            <p className="text-center text-lg font-semibold leading-relaxed py-1">실제 데이터를 활용한 모의 투자로 안전한 학습을 경험할 수 있습니다.</p>
           </div>
         </div>
 
@@ -74,10 +77,10 @@ const Login = () => {
             {/* 아이디 필드 */}
             <div className="space-y-2 my-5">
               <p className='font-jua text-lg pb-1'>아이디</p>
-              <input 
-                type="text" 
-                placeholder="아이디를 입력해주세요." 
-                {...register("userId", { 
+              <input
+                type="text"
+                placeholder="아이디를 입력해주세요."
+                {...register("userId", {
                   required: "아이디를 입력해주세요.",
                   pattern: {
                     value: authRegex,
@@ -88,14 +91,14 @@ const Login = () => {
               />
               {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
             </div>
-            
+
             {/* 비밀번호 필드 */}
             <div className="space-y-2">
               <p className='font-jua text-lg pb-1'>비밀번호</p>
-              <input 
-                type="password" 
-                placeholder="비밀번호를 입력해주세요." 
-                {...register("password", { 
+              <input
+                type="password"
+                placeholder="비밀번호를 입력해주세요."
+                {...register("password", {
                   required: "비밀번호를 입력해주세요.",
                   pattern: {
                     value: authRegex,
@@ -116,9 +119,9 @@ const Login = () => {
           </form>
 
           <div className="flex justify-center gap-6 text-[10px] text-gray-400 font-medium">
-            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">회원가입</p>
+            <p onClick={() => navigate('/signup')} className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">회원가입</p>
             <span className="text-gray-500 text-lg">|</span>
-            <p className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">비밀번호 찾기</p>
+            <p onClick={() => navigate('/password')} className="active:scale-[0.98] transition-all hover:text-gray-600 hover:underline text-base mt-1 font-jua transition-colors cursor-pointer">비밀번호 찾기</p>
           </div>
         </div>
 
