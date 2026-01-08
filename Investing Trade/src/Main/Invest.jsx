@@ -3,6 +3,8 @@ import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import headline from '../assets/headline.png';
+import video from   '../assets/video-lesson.png';
 
 const Invest = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
@@ -40,9 +42,10 @@ const Invest = () => {
                 {/* 1. 뉴스 학습 카드 */}
                 <div className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl flex-1 cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua  ">뉴스 학습</h2>
-                    <div className="h-40 flex items-center mb-8">
+                    <div className="h-40 flex items-center mb-8 space-x-6">
                         {/* 전구 및 뉴스 아이콘 (예시) */}
-                        <span className="text-8xl font-jua">💡📰</span>
+                        <img src={headline} alt="headline" className='w-36' />
+                        <img src={video} alt="video" className='w-32' />
                     </div>
                     <div className="space-y-4 text-left w-full text-xl px-2 mt-4 text-gray-800 break-keep cursor-pointer">
                         <p className='font-jua'>경제 뉴스로 주가 영향 요인을 분석</p>
