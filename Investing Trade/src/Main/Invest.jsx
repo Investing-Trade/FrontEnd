@@ -19,18 +19,18 @@ const Invest = () => {
                 <div className="flex items-center gap-4">
 
                     {/* 캐릭터 이미지와 로고 */}
-                    <div className="relative w-108 h-24">
-                        <img src={predictiveAnalytics} alt="analysis" className='w-20 absolute left-16 drop-shadow-md' />
-                        <img src={businessMan} alt="man" className="absolute w-20 top-16 left-4 drop-shadow-md" />
-                        <img src={webAnalytics} alt="chart" className="absolute pt-4 left-28 top-12 w-20 h-auto drop-shadow-md" />
+                    <div className="relative w-108">
+                        <img src={predictiveAnalytics} alt="analysis" className='absolute w-20 -top-12 left-21 drop-shadow-md' />
+                        <img src={businessMan} alt="man" className="absolute w-20 left-4 drop-shadow-md" />
+                        <img src={webAnalytics} alt="chart" className="absolute left-40 w-20 drop-shadow-md" />
                     </div>
                     <h1 className="text-white text-7xl font-agbalumo italic tracking-tight font-serif ml-4 justify-center items-center flex">NewsPin</h1>
                 </div>
 
                 <div className="text-white text-lg font-medium flex gap-4 pt-4">
-                    <button onClick={() => navigate('/profile')} className="hover:underline font-jua cursor-pointer">내 정보</button>
+                    <button  className="hover:underline font-jua cursor-pointer">내 정보</button>
                     <span className='font-bold mb-2'>|</span>
-                    <button onClick={() => {/* 로그아웃 로직 */ }} className="hover:underline font-jua cursor-pointer">로그아웃</button>
+                    <button onClick={() => {/* 로그아웃 로직 - 추후 구현 백엔드 연동 및 구현 필요*/ }} className="hover:underline font-jua cursor-pointer">로그아웃</button>
                 </div>
             </div>
 
@@ -38,8 +38,8 @@ const Invest = () => {
             <div className="w-full max-w-6xl  grid grid-cols-1 md:grid-cols-3 gap-10">
 
                 {/* 1. 뉴스 학습 카드 */}
-                <div className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
-                    <h2 className="text-4xl mb-8 text-black font-jua ">뉴스 학습</h2>
+                <div className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl flex-1 cursor-pointer">
+                    <h2 className="text-4xl mb-8 text-black font-jua  ">뉴스 학습</h2>
                     <div className="h-40 flex items-center mb-8">
                         {/* 전구 및 뉴스 아이콘 (예시) */}
                         <span className="text-8xl font-jua">💡📰</span>
