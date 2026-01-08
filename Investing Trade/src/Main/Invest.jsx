@@ -4,7 +4,11 @@ import predictiveAnalytics from '../assets/predictive-chart.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import headline from '../assets/headline.png';
-import video from   '../assets/video-lesson.png';
+import video from '../assets/video-lesson.png';
+import invest from '../assets/invest.png';
+import stock from '../assets/stock-market.png';
+import exchange from '../assets/stock-exchange.png';
+import portfolio from '../assets/pie-chart.png';
 
 const Invest = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
@@ -30,7 +34,7 @@ const Invest = () => {
                 </div>
 
                 <div className="text-white text-lg font-medium flex gap-4 pt-4">
-                    <button  className="hover:underline font-jua cursor-pointer">내 정보</button>
+                    <button className="hover:underline font-jua cursor-pointer">내 정보</button>
                     <span className='font-bold mb-2'>|</span>
                     <button onClick={() => {/* 로그아웃 로직 - 추후 구현 백엔드 연동 및 구현 필요*/ }} className="hover:underline font-jua cursor-pointer">로그아웃</button>
                 </div>
@@ -43,7 +47,7 @@ const Invest = () => {
                 <div className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl flex-1 cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua  ">뉴스 학습</h2>
                     <div className="h-40 flex items-center mb-8 space-x-6">
-                        {/* 전구 및 뉴스 아이콘 (예시) */}
+                        {/* 전구 및 뉴스 아이콘 */}
                         <img src={headline} alt="headline" className='w-36' />
                         <img src={video} alt="video" className='w-32' />
                     </div>
@@ -57,8 +61,9 @@ const Invest = () => {
                 {/* 2. 모의 투자 카드 */}
                 <div className="bg-white rounded-[2rem] border-4 hover:bg-green-500 active:scale-[0.98] transition-all rounded-[2rem] border-white border-solid p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua">모의 투자</h2>
-                    <div className="h-40 flex items-center mb-8">
-                        <img src={predictiveAnalytics} alt="invest" className="w-32 h-auto" />
+                    <div className="h-40 flex items-center mb-8 space-x-6">
+                        <img src={invest} alt="investing-trade" className='w-32' />
+                        <img src={stock} alt="stock-market" className='w-32' />
                     </div>
                     <div className="space-y-4 text-left w-full text-xl text-gray-800 break-keep">
                         <p className='font-jua' >실제 주가 데이터를 활용한 가상 투자</p>
@@ -70,8 +75,9 @@ const Invest = () => {
                 {/* 3. 내 포트폴리오 카드 */}
                 <div className="bg-white rounded-[2rem] border-4  hover:bg-blue-400 active:scale-[0.98] transition-all rounded-[2rem] border-solid border-white p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua">내 포트폴리오</h2>
-                    <div className="h-40 flex items-center mb-8">
-                        <span className="text-8xl">📊📈</span>
+                    <div className="h-40 flex items-center mb-8 space-x-6">
+                        <img src={portfolio} alt="portfolio" className='w-32' />
+                        <img src={exchange} alt="exchange" className='w-32' />
                     </div>
                     <div className="space-y-4 text-left w-full text-xl text-gray-800 break-keep">
                         <p className='font-jua'>누적 투자 기록과 거래 내역 관리, 성과 시각화</p>
