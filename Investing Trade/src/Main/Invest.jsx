@@ -9,6 +9,8 @@ import invest from '../assets/invest.png';
 import stock from '../assets/stock-market.png';
 import exchange from '../assets/stock-exchange.png';
 import portfolio from '../assets/pie-chart.png';
+import logout from '../assets/logout.png';
+import correction from '../assets/correction-tape.png';
 
 const Invest = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
@@ -92,7 +94,7 @@ const Invest = () => {
                 </div>
             </div>
 
-            {/* 3. 내 정보 모달 UI 구현 */}
+            {/* 4. 내 정보 모달 UI 구현 */}
             {isProfileModalOpen && (
                 <div className="fixed inset-0 bg-white/60 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl p-10 w-[500px] shadow-2xl flex flex-col font-jua">
@@ -112,7 +114,7 @@ const Invest = () => {
                                 <label className="block mb-2">비밀번호</label>
                                 <input
                                     type="password"
-                                    value="newspaper123"
+                                    value="password123" // 추후 변경
                                     readOnly
                                     className="w-full border-2 border-black rounded-xl p-3 bg-white font-serif italic font-bold"
                                 />
@@ -121,7 +123,7 @@ const Invest = () => {
                                 <label className="block mb-2">이메일</label>
                                 <input
                                     type="email"
-                                    value="newsanalyst35144@gmail.com"
+                                    value="newsanalyst35144@gmail.com" // 추후 변경
                                     readOnly
                                     className="w-full border-2 border-black rounded-xl p-3 bg-white font-serif italic font-bold"
                                 />
@@ -130,15 +132,17 @@ const Invest = () => {
 
                         <hr className="border-gray-300 mb-8" />
 
-                        <div className="flex gap-4">
-                            <button className="flex-1 bg-indigo-600 text-white text-2xl cursor-pointer py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-700">
-                                📝 수정하기
+                        <div className="flex gap-4 space-x-6">
+                            <button className="flex-1 bg-blue-600 text-white active:scale-[0.98] transition-all rounded-[2rem] border-solid border-white text-2xl cursor-pointer py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-700">
+                                <img src={correction} alt="correct" className='w-12' />
+                                <span>수정하기</span>
                             </button>
                             <button
                                 onClick={() => setIsProfileModalOpen(false)}
-                                className="flex-1 bg-indigo-600 cursor-pointer text-white text-2xl py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-700"
+                                className="flex-1 bg-blue-600 cursor-pointer text-white text-2xl active:scale-[0.98] transition-all rounded-[2rem] border-solid border-white py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-700"
                             >
-                                ➔ 나가기
+                                <img src={logout} alt="logout" className='w-12' />
+                                <span>로그아웃</span>
                             </button>
                         </div>
                     </div>
