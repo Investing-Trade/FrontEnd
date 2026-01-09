@@ -43,7 +43,7 @@ const Invest = () => {
                     >
                         내 정보
                     </button>                    <span className='font-bold mb-2'>|</span>
-                    <button onClick={() => {/* 로그아웃 로직 - 추후 구현 백엔드 연동 및 구현 필요*/ }} className="hover:underline font-jua cursor-pointer">로그아웃</button>
+                    <button onClick={() => navigate('/login')} className="hover:underline font-jua cursor-pointer">로그아웃</button>
                 </div>
             </div>
 
