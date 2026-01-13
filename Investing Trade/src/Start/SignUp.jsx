@@ -188,7 +188,7 @@ const SignUp = () => {
                                 <button
                                     type="button" // submit 방지
                                     onClick={handleSendCode}
-                                    className="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-black transition-all"
+                                    className="bg-blue-600 text-white px-4 py-2 cursor-pointer rounded-lg text-xs font-bold hover:bg-blue-400 transition-all"
                                 >
                                     {isCodeSent ? "재전송" : "인증번호 전송"}
                                 </button>
