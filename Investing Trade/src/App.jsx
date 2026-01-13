@@ -6,8 +6,9 @@ import Invest from './Main/Invest.jsx';
 function App() {
   return (
     <div >
-      <Routes>
-        <Route path="/" element={<Invest />} />
+      <Routes>        
+        <Route path="/" element={<Login />} />   
+        {/* <Route path="/" element={<Invest />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/password" element={<Password />} />
         <Route path="/signup" element={<SignUp />} /> 

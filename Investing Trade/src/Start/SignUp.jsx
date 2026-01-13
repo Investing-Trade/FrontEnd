@@ -3,11 +3,48 @@ import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
 import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
+    const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호 발송 여부
+    const [timer, setTimer] = useState(0); // 타이머 (초)
+
+    // 타이머 기능
+    useEffect(() => {
+        let interval;
+        if (isCodeSent && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isCodeSent, timer]);
+
+    // 인증번호 발송 함수
+    const handleSendCode = async () => {
+        const email = watch("email");
+        if (!email || errors.email) {
+            alert("올바른 이메일을 입력해주세요.");
+            return;
+        }
+
+        // TODO: 여기서 백엔드 API 호출 (인증 메일 발송)
+        console.log(`${email}로 인증번호 발송`);
+
+        setIsCodeSent(true);
+        setTimer(180); // 3분 설정
+        alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
+    };
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
 
     // 페이지 접속 시 타이틀 변경
     useEffect(() => {
@@ -21,7 +58,7 @@ const SignUp = () => {
         watch,
         formState: { errors, dirtyFields },
     } = useForm({
-        mode: "onChange" 
+        mode: "onChange"
     });
 
     // 2. 제출 핸들러
@@ -52,7 +89,7 @@ const SignUp = () => {
     };
 
     return (
-        <div className="w-full h-full flex items-center justify-center bg-white-800 mx-2 px-4 py-3">
+        <div className="w-full h-full flex items-center justify-center bg-white-800 mx-2 px-4 py-2">
 
             {/* 부모 카드: 가로 배치 및 그림자 설정 */}
             <div className="bg-white rounded-3xl border border-gray-200 flex flex-row items-stretch w-full max-w-4xl h-[750px] overflow-hidden shadow-2xl">
@@ -82,7 +119,7 @@ const SignUp = () => {
 
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                         {/* 아이디 필드 */}
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             <p className='font-bold text-lg'>아이디</p>
                             <input
                                 type="text"
@@ -94,13 +131,13 @@ const SignUp = () => {
                                         message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
                                     }
                                 })}
-                                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')}`}
                             />
                             {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
                         </div>
 
                         {/* 비밀번호 필드 */}
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             <p className='font-bold text-lg'>비밀번호</p>
                             <input
                                 type="password"
@@ -112,13 +149,13 @@ const SignUp = () => {
                                         message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
                                     }
                                 })}
-                                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('password')}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('password')}`}
                             />
                             {errors.password && <p className="text-red-500 text-xs font-bold">{errors.password.message}</p>}
                         </div>
 
                         {/* 비밀번호 확인 필드 */}
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             <p className='font-bold text-lg'>비밀번호 확인</p>
                             <input
                                 type="password"
@@ -127,36 +164,68 @@ const SignUp = () => {
                                     required: "비밀번호 확인을 입력해주세요.",
                                     validate: (value) => value === passwordValue || "비밀번호가 일치하지 않습니다."
                                 })}
-                                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('passwordConfirm')}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('passwordConfirm')}`}
                             />
                             {errors.passwordConfirm && <p className="text-red-500 text-xs font-bold">{errors.passwordConfirm.message}</p>}
                         </div>
 
                         {/* 이메일 필드 */}
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             <p className='font-bold text-lg'>이메일</p>
-                            <input
-                                type="text"
-                                placeholder="이메일을 입력해주세요. (예: newspin@naver.com)"
-                                {...register("email", {
-                                    required: "이메일을 입력해주세요.",
-                                    pattern: {
-                                        value: emailRegex,
-                                        message: "올바른 이메일 형식이 아닙니다. (@와 .com 포함)"
-                                    }
-                                })}
-                                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('email')}`}
-                            />
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder="newspin@naver.com"
+                                    {...register("email", {
+                                        required: "이메일을 입력해주세요.",
+                                        pattern: {
+                                            value: emailRegex,
+                                            message: "올바른 이메일 형식이 아닙니다."
+                                        }
+                                    })}
+                                    className={`flex-1 px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('email')}`}
+                                />
+                                <button
+                                    type="button" // submit 방지
+                                    onClick={handleSendCode}
+                                    className="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-black transition-all"
+                                >
+                                    {isCodeSent ? "재전송" : "인증번호 전송"}
+                                </button>
+                            </div>
                             {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
                         </div>
 
-                        {/* 제출 버튼 */}
+                        {/* 인증번호 입력 섹션 (인증번호 전송 시에만 표시) */}
+                        {isCodeSent && (
+                            <div className="space-y-3 mt-4">
+                                <p className='font-bold text-lg'>인증번호 확인</p>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="인증번호 6자리를 입력해주세요."
+                                        {...register("authCode", {
+                                            required: "인증번호를 입력해주세요.",
+                                            minLength: { value: 6, message: "6자리를 입력해주세요." }
+                                        })}
+                                        className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('authCode')}`}
+                                    />
+                                    {/* 타이머 표시 */}
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-red-500 font-bold text-sm">
+                                        {formatTime(timer)}
+                                    </span>
+                                </div>
+                                {errors.authCode && <p className="text-red-500 text-xs font-bold">{errors.authCode.message}</p>}
+                            </div>
+                        )}
+
+                        {/* 최종 제출 버튼 */}
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 pt-4 border border-white text-sm cursor-pointer text-white font-bold py-4 rounded-lg mt-12 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                            className="w-full bg-blue-600 border border-white text-sm cursor-pointer text-white font-bold py-3 rounded-lg mt-8 shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-1"
                         >
                             <img src={paperplane} alt="plane" className="w-5 h-5" />
-                            <span onClick={() => navigate('/login')} >가입 완료! 로그인 후 투자 감각을 깨워보세요.</span>
+                            <span>가입 완료! 로그인 후 투자 감각을 깨워보세요.</span>
                         </button>
                     </form>
                 </div>
