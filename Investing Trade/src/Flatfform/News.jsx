@@ -25,10 +25,10 @@ const News = () => {
             {/* [상단 헤더 영역] - 간격을 mb-14에서 mb-6으로 줄여 공간 확보 */}
             <div className="w-full max-w-4xl flex justify-between items-start mb-6 shrink-0">
                 <div className="flex items-center gap-4">
-                    <div className="relative w-80 h-16">
-                        <img src={predictiveAnalytics} alt="analysis" className='absolute w-16 -top-4 left-16 drop-shadow-md' />
-                        <img src={businessMan} alt="man" className="absolute w-16 -bottom-4 left-4 drop-shadow-md" />
-                        <img src={webAnalytics} alt="chart" className="absolute -bottom-4 left-32 w-16 drop-shadow-md" />
+                    <div className="relative w-80 h-15">
+                        <img src={predictiveAnalytics} alt="analysis" className='absolute w-16 -top-1 left-17 drop-shadow-md' />
+                        <img src={businessMan} alt="man" className="absolute w-16 -bottom-5 left-3 drop-shadow-md" />
+                        <img src={webAnalytics} alt="chart" className="absolute -bottom-5 left-33 w-16 drop-shadow-md" />
                     </div>
                     <h1 className="text-white text-6xl font-agbalumo italic tracking-tight font-serif ml-4 flex">NewsPin</h1>
                 </div>
