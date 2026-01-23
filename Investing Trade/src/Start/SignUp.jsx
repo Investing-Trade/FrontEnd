@@ -118,22 +118,22 @@ const SignUp = () => {
                     <h2 className="text-5xl font-bold text-center mb-8 text-gray-800">회원가입</h2>
 
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                        {/* 아이디 필드 */}
+                        {/* 이메일 필드 */}
                         <div className="space-y-3">
-                            <p className='font-bold text-lg'>아이디</p>
-                            <input
-                                type="text"
-                                placeholder="아이디를 입력해주세요."
-                                {...register("userId", {
-                                    required: "아이디를 입력해주세요.",
-                                    pattern: {
-                                        value: authRegex,
-                                        message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
-                                    }
-                                })}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')}`}
-                            />
-                            {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
+                            <p className='font-bold text-lg'>이메일</p>
+                           <input
+                                    type="text"
+                                    placeholder="newspin@naver.com"
+                                    {...register("email", {
+                                        required: "이메일을 입력해주세요.",
+                                        pattern: {
+                                            value: emailRegex,
+                                            message: "올바른 이메일 형식이 아닙니다."
+                                        }
+                                    })}
+                                    className={`flex-1 px-4 py-2 border rounded-lg outline-none w-full text-sm transition-all font-bold ${getBorderStyle('email')}`}
+                                />
+                            {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
                         </div>
 
                         {/* 비밀번호 필드 */}
