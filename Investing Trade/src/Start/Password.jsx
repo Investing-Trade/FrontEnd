@@ -50,21 +50,19 @@ const Password = () => {
           code: data.authCode
         });
 
-        // 서버 응답 구조가 data.data.verified가 맞는지 확인 필요
+        // 결과 확인
         if (verifyRes.data.data?.verified) {
           // [알림] 실제 비밀번호 변경 API가 목록에 없으므로 시뮬레이션 처리
           // 나중에 백엔드 API가 생기면 여기에 추가 axios 요청을 작성해야 합니다.
-          console.log("새 비밀번호 데이터:", { email: data.email, password: data.newPassword });
-          
-          alert("비밀번호가 성공적으로 변경되었습니다! 로그인 화면으로 이동합니다.");
-          navigate('/login');
+
+          alert("비밀번호 변경이 완료되었습니다!");
+          navigate('/login'); // 성공 시에만 이동
         } else {
           alert(verifyRes.data.data.message || "인증 코드가 일치하지 않습니다.");
         }
       }
     } catch (error) {
-      const serverMsg = error.response?.data?.message;
-      alert(serverMsg || "통신 중 오류가 발생했습니다.");
+      alert(error.response?.data?.message || "통신 중 오류가 발생했습니다.");
     } finally {
       setIsSubmitting(false);
     }
