@@ -3,7 +3,8 @@ import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react'; // useEffect 추가
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
@@ -22,10 +23,36 @@ const Login = () => {
     mode: "onChange"
   });
 
-  // 3. 로그인 제출 핸들러
-  const onSubmit = (data) => {
-    console.log("로그인 시도 데이터:", data);
-    alert("로그인 성공!");
+  // [수정] 로그인 제출 핸들러: SignIn API 연동 및 JWT 저장
+ const onSubmit = async (data) => {
+    try {
+      // API 명세: POST /user/sign-in { email, password }
+      const response = await axios.post('/user/sign-in', {
+        email: data.email,
+        password: data.password
+      });
+
+      // API 명세: ApiResponseSignInResponse -> data 내부에 jwtToken 존재
+      // 구조: response.data.data.jwtToken { grantType, accessToken, refreshToken }
+      if (response.data.status === "SUCCESS") {
+        const { grantType, accessToken, refreshToken } = response.data.data.jwtToken;
+
+        // 1. 브라우저 저장소에 토큰 저장
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        // 2. 이후 요청을 위한 Axios 기본 헤더 설정
+        axios.defaults.headers.common['Authorization'] = `${grantType} ${accessToken}`;
+
+        alert("로그인 성공! 투자 여정을 시작합니다.");
+        navigate('/main'); // 로그인 성공 후 메인 페이지로 이동
+      }
+    } catch (error) {
+      // 서버에서 내려주는 에러 메시지 출력
+      const errorMessage = error.response?.data?.message || "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.";
+      alert(errorMessage);
+      console.error("Login Error:", error.response?.data);
+    }
   };
 
   // 정규식: 영문, 한글, 숫자, 특수문자 조합 8자 이상
@@ -74,22 +101,19 @@ const Login = () => {
         <div className="flex-1 p-12 flex flex-col justify-center bg-white shrink-0">
           <h2 className="text-5xl font-jua text-center mb-20 text-gray-800">로그인</h2>
           <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
-            {/* 아이디 필드 */}
-            <div className="space-y-2 my-5">
-              <p className='font-jua text-lg pb-1'>아이디</p>
-              <input
-                type="text"
-                placeholder="아이디를 입력해주세요."
-                {...register("userId", {
-                  required: "아이디를 입력해주세요.",
-                  pattern: {
-                    value: authRegex,
-                    message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
-                  }
-                })}
-                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')}`}
-              />
-              {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
+            {/* 상단: 로그인 ID용 이메일 */}
+                        <div className="space-y-3">
+                            <p className='font-bold text-lg'>이메일</p>
+                            <input
+                                type="text"
+                                placeholder="newspin@naver.com"
+                                {...register("email", { // 이름: email
+                                    required: "이메일을 입력해주세요.",
+                                    pattern: { value: /^[^\s@]+@[^\s@]+\.com$/, message: "형식 오류" }
+                                })}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm font-bold ${getBorderStyle('email')}`}
+                            />
+              {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
             </div>
 
             {/* 비밀번호 필드 */}
