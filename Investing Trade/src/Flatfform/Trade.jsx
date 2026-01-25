@@ -65,14 +65,14 @@ const Trade = () => {
 
                     {/* === [좌측 영역] 투자 설정(상) + 차트(하) === */}
                     <div className="flex-[1.2] flex flex-col gap-4 overflow-hidden">
-                        
+
                         {/* 1. 투자 환경 설정 */}
                         <div className="border-2 border-gray-300 rounded-lg p-2 relative bg-white shrink-0">
                             <div className="flex items-center gap-3 mb-3">
                                 <img src={input} alt="input" className='w-8 h-8' />
                                 <h3 className="text-lg font-semibold ">투자 환경 설정</h3>
                                 <button className="flex hover:bg-blue-600 active:scale-[0.90] transition-all bg-blue-400 border-1 border-black cursor-pointer shadow-lg font-semibold text-white text-sm px-2 py-1 rounded-md items-center gap-2">
-                                    <img src={start} alt="start" className='w-5 h-5' /> 
+                                    <img src={start} alt="start" className='w-5 h-5' />
                                     <span>투자 시작</span>
                                 </button>
                                 <div className="ml-auto flex items-center gap-1 text-sm font-bold">
@@ -90,7 +90,7 @@ const Trade = () => {
                             </div>
                         </div>
 
-                        {/* 3. 차트 정보 및 거래 */}
+                        {/* 3. 차트 정보 및 거래 -> 추후 api 연동 */}
                         <div className="flex-1 border-2 border-gray-300 rounded-lg p-3 flex flex-col bg-white overflow-hidden">
                             <div className="flex justify-between items-center mb-2">
                                 <div className="flex items-center gap-2">
@@ -120,17 +120,17 @@ const Trade = () => {
                             <div className="grid grid-cols-2 gap-4 border-t pt-2 shrink-0">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                        <img src={trade} alt="trade" className='w-8 h-8'/>
+                                        <img src={trade} alt="trade" className='w-8 h-8' />
                                         <span className="font-bold text-xs">매수 / 매도</span>
                                         <span className="text-sm ml-auto font-semibold">잔액
-                                        <span className="border rounded-sm border-gray-400 px-2 py-0.5 ml-1">3,950,000 원</span></span>
+                                            <span className="border rounded-sm border-gray-400 px-2 py-0.5 ml-1">3,950,000 원</span></span>
                                     </div>
                                     <div className="text-[12px] font-bold mb-3 mt-5">종목 선택</div>
                                     <div className="flex gap-3 text-[8px] mb-2">
-                                        <img src={bio} alt="bio" className='w-7 h-7'/><span className='font-bold text-[10px] mt-1'>바이오</span>
-                                        <img src={it} alt="it" className='w-7 h-7'/><span className='font-bold text-[10px] mt-1'>IT/테크</span>
-                                        <img src={popcorn} alt="popcorn" className='w-7 h-7'/><span className='font-bold text-[10px] mt-1'>엔터</span>
-                                        <img src={cutlery} alt="cutlery" className='w-7 h-7'/><span className='font-bold text-[10px] mt-1'>외식</span>
+                                        <img src={bio} alt="bio" className='w-7 h-7' /><span className='font-bold text-[10px] mt-1'>바이오</span>
+                                        <img src={it} alt="it" className='w-7 h-7' /><span className='font-bold text-[10px] mt-1'>IT/테크</span>
+                                        <img src={popcorn} alt="popcorn" className='w-7 h-7' /><span className='font-bold text-[10px] mt-1'>엔터</span>
+                                        <img src={cutlery} alt="cutlery" className='w-7 h-7' /><span className='font-bold text-[10px] mt-1'>외식</span>
                                     </div>
                                     <div className="grid grid-cols-4 gap-1">
                                         <select className="border text-[9px] font-bold rounded">
@@ -170,8 +170,8 @@ const Trade = () => {
 
                     {/* === [우측 영역] 뉴스 기사(상) + 피드백(하) === */}
                     <div className="flex-1 flex flex-col gap-4 overflow-hidden">
-                        
-                        {/* 2. 뉴스 기사 */}
+
+                        {/* 2. 뉴스 기사 -> 추후 api 연동 */}
                         <div className="flex-1 border-2 border-gray-400 rounded-lg p-1 flex flex-col bg-white overflow-hidden">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="text-xl">📋</span>
@@ -180,17 +180,22 @@ const Trade = () => {
                             </div>
                             <div className="border border-gray-400 rounded-lg p-3 flex-1 overflow-y-auto text-xs leading-relaxed font-jua">
                                 <div className="flex gap-4 mb-3 pb-2">
-                                    <div className="w-20 h-14 border border-green-600 flex items-center justify-center p-1 font-bold text-green-700 text-[10px] shrink-0">
-                                        GC 녹십자
+                                    <div className="w-full md:w-1/3 border-2 border-gray-300 rounded-lg flex items-center justify-center p-4 h-full bg-gray-50">
+                                        <div className="text-2xl font-bold flex items-center">
+                                            <span className="text-green-600 uppercase">GC Biopharma</span>
+                                        </div>
                                     </div>
-                                    <p className="font-bold">국내 주요 제약사들이 2021년 신축년 새해 다짐을 예년과 달리 온라인으로 간소화했지만 혁신과 성장을 향한 외침에는 변함이 없었다.</p>
+                                    <p className="font-bold text-lg mt-2">국내 주요 제약사들이 2021년 신축년 새해 다짐을 예년과 달리 온라인으로 간소화했지만 혁신과 성장을 향한 외침에는 변함이 없었다.</p>
                                 </div>
-                                <p>지난해에 이어 올해도 코로나19 팬데믹이 여전하지만 '위기가 곧 기회'라는 자세로 성장동력 발굴, 스마트 경영 실현 등의 의지를 다진 것이다. GC녹십자는 '어려울 때 꼭 필요한 회사가 되자'는 다짐을 통해 올해 첫 근무를 시작했다...</p>
+                                <p className="mb-3">국내 주요 제약사들이 2021년 신축년 새해 다짐을 예년과 달리 별도의 행사 없이 온라인으로 간소화했지만 혁신과 성장을 위한 외침에는 변함이 없었다.</p>
+                                <p className="mb-3">지난해에 이어 올해도 코로나19(COVID-19) 팬데믹이 여전하지만 '위기가 곧 기회'라는 자세로 성장동력 발굴, 스마트 경영, 제약강국 실현 등의 의지 다진 것이다.</p>
+                                <p className="mb-3">단, 코로나19의 여파로 대부분의 제약사가 온라인으로 신년인사를 대체한 것이 올해 시무식 공통적인 특징이다. GC녹십자는 '어려울 때 꼭 필요한 회사가 되자'는 다짐을 통해 올해 첫 근무를 시작했다.</p>
+                                <p>GC녹십자 허은철 사장은 "예고 없이 찾아오는 위기에 대응하고 기회를 놓치지 않기 위해 늘 성실히 준비하는 행동을 바탕으로 내실 있는 회사가 돼야 한다"며 "포스트 코로나 시대를 대비하고 시대적 요청에 부응하는 회사가 되도록 항상 깨어 있어야 한다"고 강조했다.</p>
                             </div>
                         </div>
 
-                        {/* 4. 투자 결과 및 피드백 */}
-                        <div className="flex-1 border-2 border-gray-400 rounded-lg p-2 bg-white flex flex-col overflow-hidden">
+                        {/* 4. 투자 결과 및 피드백 -> 추후 api 연동 */}
+                        <div className="flex-0.8 border-2 border-gray-400 rounded-lg p-2 bg-white flex flex-col overflow-hidden">
                             <div className="flex items-center gap-2 mb-2">
                                 <img src={review} alt="review" className='w-10 h-10' />
                                 <h3 className="font-bold text-lg">투자 결과 및 피드백</h3>
