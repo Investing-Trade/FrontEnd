@@ -3,8 +3,12 @@ import webAnalytics from '../assets/web-analytics.png';
 import predictiveAnalytics from '../assets/predictive-chart.png';
 import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
-import { useEffect ,useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+// 백엔드 서버 주소
+axios.defaults.baseURL = 'http://52.78.151.56:8080';
 
 const SignUp = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
@@ -24,20 +28,31 @@ const SignUp = () => {
         return () => clearInterval(interval);
     }, [isCodeSent, timer]);
 
-    // 인증번호 발송 함수
+    // 인증번호 발송 함수: /user/email/send-verification 연동
     const handleSendCode = async () => {
-        const email = watch("email");
-        if (!email || errors.email) {
-            alert("올바른 이메일을 입력해주세요.");
+        const vEmail = watch("verificationEmail");
+        if (!vEmail || errors.verificationEmail) {
+            alert("인증번호를 받을 이메일을 입력해주세요.");
             return;
         }
 
-        // TODO: 여기서 백엔드 API 호출 (인증 메일 발송)
-        console.log(`${email}로 인증번호 발송`);
+        try {
+            // [수정] 실제 API 전송 시에도 vEmail 사용
+           await axios({
+                method: 'post',
+                url: '/user/email/send-verification',
+                data: { email: vEmail } 
+            });
 
-        setIsCodeSent(true);
-        setTimer(180); // 3분 설정
-        alert("인증번호가 발송되었습니다. 이메일을 확인해주세요.");
+            setIsCodeSent(true);
+            setTimer(180);
+            alert("인증번호가 발송되었습니다.");
+        } catch (error) {
+        // [수정] 서버가 보내준 구체적인 에러 메시지가 있다면 출력
+        const serverMessage = error.response?.data?.message;
+        alert(serverMessage || "서버 내부 오류가 발생했습니다. 백엔드 로그를 확인해 주세요.");
+        console.error("서버 에러 상세:", error.response?.data);
+    }
     };
 
     const formatTime = (seconds) => {
@@ -61,10 +76,51 @@ const SignUp = () => {
         mode: "onChange"
     });
 
-    // 2. 제출 핸들러
-    const onSubmit = (data) => {
-        console.log("회원가입 성공 데이터:", data);
-        alert("가입 완료! 로그인 후 투자 감각을 깨워보세요.");
+    // [수정] 제출 핸들러: 인증 확인 후 회원가입 및 JWT 토큰 처리
+    const onSubmit = async (data) => {
+        try {
+            // 1. 인증 확인 (/user/email/verify)
+            const verifyRes = await axios({
+                method: 'post',
+                url: '/user/email/verify',
+                data: {
+                    email: data.verificationEmail,
+                    code: data.authCode
+                }
+            });
+
+            // verified 결과 확인
+            if (!verifyRes.data.data.verified) {
+                alert(verifyRes.data.data.message || "인증번호 불일치");
+                return;
+            }
+
+            // 2. 실제 회원가입 요청 (/user/sign-up)
+            const signUpRes = await axios({
+                method: 'post',
+                url: '/user/sign-up',
+                data: {
+                    email: data.email,
+                    password: data.password
+                }
+            });
+
+            if (signUpRes.data.status === "SUCCESS") {
+                // 가입 성공 시 응답에 JWT 토큰이 포함된 경우 저장
+                if (signUpRes.data.data?.accessToken) {
+                    const { accessToken, refreshToken, grantType } = signUpRes.data.data;
+
+                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('refreshToken', refreshToken);
+                    axios.defaults.headers.common['Authorization'] = `${grantType} ${accessToken}`;
+                }
+
+                alert("가입 완료! 로그인 후 투자 감각을 깨워보세요.");
+                navigate('/main'); // 메인 페이지로 이동
+            }
+        } catch (error) {
+            alert(error.response?.data?.message || "회원가입 처리 중 에러가 발생했습니다.");
+        }
     };
 
     // 정규식 설정
@@ -118,22 +174,18 @@ const SignUp = () => {
                     <h2 className="text-5xl font-bold text-center mb-8 text-gray-800">회원가입</h2>
 
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                        {/* 아이디 필드 */}
+                        {/* 상단: 로그인 ID용 이메일 */}
                         <div className="space-y-3">
-                            <p className='font-bold text-lg'>아이디</p>
+                            <p className='font-bold text-lg'>이메일</p>
                             <input
                                 type="text"
-                                placeholder="아이디를 입력해주세요."
-                                {...register("userId", {
-                                    required: "아이디를 입력해주세요.",
-                                    pattern: {
-                                        value: authRegex,
-                                        message: "8자 이상 입력해주세요. (영문, 한글, 숫자, 특수문자 조합 가능)"
-                                    }
+                                placeholder="newspin@naver.com"
+                                {...register("email", { // 이름: email
+                                    required: "이메일을 입력해주세요.",
+                                    pattern: { value: /^[^\s@]+@[^\s@]+\.com$/, message: "형식 오류" }
                                 })}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none text-sm font-bold ${getBorderStyle('email')}`}
                             />
-                            {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
                         </div>
 
                         {/* 비밀번호 필드 */}
@@ -169,21 +221,18 @@ const SignUp = () => {
                             {errors.passwordConfirm && <p className="text-red-500 text-xs font-bold">{errors.passwordConfirm.message}</p>}
                         </div>
 
-                        {/* 이메일 필드 */}
+                        {/* 하단: 인증번호 수령용 이메일 */}
                         <div className="space-y-3">
-                            <p className='font-bold text-lg'>이메일</p>
+                            <p className='font-bold text-lg'>인증용 이메일</p>
                             <div className="flex gap-2">
                                 <input
                                     type="text"
-                                    placeholder="newspin@naver.com"
-                                    {...register("email", {
-                                        required: "이메일을 입력해주세요.",
-                                        pattern: {
-                                            value: emailRegex,
-                                            message: "올바른 이메일 형식이 아닙니다."
-                                        }
+                                    placeholder="인증번호를 받을 이메일"
+                                    {...register("verificationEmail", { // [수정] 이름을 verificationEmail로 변경
+                                        required: "인증용 이메일을 입력해주세요.",
+                                        pattern: { value: /^[^\s@]+@[^\s@]+\.com$/, message: "형식 오류" }
                                     })}
-                                    className={`flex-1 px-4 py-2 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('email')}`}
+                                    className={`flex-1 px-4 py-2 border rounded-lg outline-none text-sm font-bold ${getBorderStyle('verificationEmail')}`}
                                 />
                                 <button
                                     type="button" // submit 방지
@@ -193,7 +242,7 @@ const SignUp = () => {
                                     {isCodeSent ? "재전송" : "인증번호 전송"}
                                 </button>
                             </div>
-                            {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
+                            {errors.verficationEmail && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
                         </div>
 
                         {/* 인증번호 입력 섹션 (인증번호 전송 시에만 표시) */}

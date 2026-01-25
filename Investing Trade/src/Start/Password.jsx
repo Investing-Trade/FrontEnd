@@ -5,22 +5,17 @@ import paperplane from '../assets/paper-plane.png';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import emailjs from '@emailjs/browser';
+import axios from 'axios';
 
 const Password = () => {
-  const navigate = useNavigate(); // 페이지 이동을 위한 함수 선언
-
-  // 1. 인증 메일 전송 여부를 확인하는 상태
+  const navigate = useNavigate();
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState(""); // 생성된 코드 저장용 상태
-  const [isSubmitting, setIsSubmitting] = useState(false); // [수정] loading 대신 에러가 발생했던 이 변수명을 사용합니다.
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // 페이지 접속 시 타이틀 변경
   useEffect(() => {
     document.title = "NewsPin - Password";
   }, []);
 
-  // 2. useForm 초기화 (watch 추가)
   const {
     register,
     handleSubmit,
@@ -30,70 +25,49 @@ const Password = () => {
     mode: "onChange"
   });
 
-  // 비밀번호 확인을 위한 값 감시
   const newPasswordValue = watch("newPassword");
-
-  // 정규식 설정
   const authRegex = /^[a-zA-Z가-힣\d@$!%*?&]{8,}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.com$/;
 
-  // 3. 통합 제출 핸들러 (단계별 분기)
+  // 통합 제출 핸들러
   const onSubmit = async (data) => {
-    if (!isCodeSent) {
-      // [1단계] 인증 코드 생성 및 이메일 발송
-      setIsSubmitting(true);
+    setIsSubmitting(true);
+    try {
+      if (!isCodeSent) {
+        // [1단계] 인증 코드 발송
+        await axios({
+          method: 'post',
+          url: '/user/email/send-verification',
+          params: { email: data.email }
+        });
 
-      // 6자리 무작위 코드 생성 (100000 ~ 999999)
-      const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedCode(randomCode);
-
-      // EmailJS에 보낼 파라미터 (템플릿 변수명과 일치해야 함)
-      const templateParams = {
-        to_email: data.email,
-        to_name: data.userId,
-        auth_code: randomCode,
-      };
-
-      try {
-        // 실제 발송 시 아래 주석을 해제하고 ID들을 입력하세요.
-        /*
-        await emailjs.send(
-          'YOUR_SERVICE_ID', 
-          'YOUR_TEMPLATE_ID', 
-          templateParams, 
-          'YOUR_PUBLIC_KEY'
-        );
-        */
-
-        console.log("발송된 인증코드(테스트용):", randomCode);
         alert(`입력하신 ${data.email}로 인증 코드가 발송되었습니다.`);
         setIsCodeSent(true);
-      } catch (error) {
-        alert("이메일 전송에 실패했습니다. 다시 시도해 주세요.");
-        console.error("EmailJS Error:", error);
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        // [2단계] 코드 검증
+        const verifyRes = await axios.post('/user/email/verify', {
+          email: data.email,
+          code: data.authCode
+        });
+
+        // 결과 확인
+        if (verifyRes.data.data?.verified) {
+          // [알림] 실제 비밀번호 변경 API가 목록에 없으므로 시뮬레이션 처리
+          // 나중에 백엔드 API가 생기면 여기에 추가 axios 요청을 작성해야 합니다.
+
+          alert("비밀번호 변경이 완료되었습니다!");
+          navigate('/login'); // 성공 시에만 이동
+        } else {
+          alert(verifyRes.data.data.message || "인증 코드가 일치하지 않습니다.");
+        }
       }
-
-    } else {
-      // [2단계] 코드 검증 및 비밀번호 변경
-      if (data.authCode !== generatedCode) {
-        alert("인증 코드가 일치하지 않습니다. 다시 확인해 주세요.");
-        return;
-      }
-
-      // 비밀번호 변경 성공 시뮬레이션 (DB 연동 지점)
-      console.log("비밀번호 변경 완료:", {
-        userId: data.userId,
-        newPassword: data.newPassword
-      });
-
-      alert("비밀번호가 성공적으로 변경되었습니다! 로그인 화면으로 이동합니다.");
-      window.location.href = "/login";
+    } catch (error) {
+      alert(error.response?.data?.message || "통신 중 오류가 발생했습니다.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // 실시간 테두리 스타일 결정 함수
   const getBorderStyle = (fieldName) => {
     if (errors[fieldName]) return 'border-red-500 bg-red-50 focus:ring-red-500';
     if (dirtyFields[fieldName] && !errors[fieldName]) return 'border-[#5D6DED] bg-blue-50 focus:ring-[#5D6DED]';
@@ -128,19 +102,7 @@ const Password = () => {
           </h2>
 
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* 아이디 필드 */}
-            <div className="space-y-3">
-              <p className='font-jua text-lg pb-1'>아이디</p>
-              <input
-                type="text"
-                readOnly={isCodeSent}
-                placeholder="아이디를 입력해주세요."
-                {...register("userId", { required: "아이디를 입력해주세요." })}
-                className={`w-full px-4 py-3 border rounded-lg outline-none text-sm transition-all font-bold ${getBorderStyle('userId')} ${isCodeSent ? 'bg-gray-100' : ''}`}
-              />
-              {errors.userId && <p className="text-red-500 text-xs font-bold">{errors.userId.message}</p>}
-            </div>
-
+            
             {/* 이메일 필드 */}
             <div className="space-y-2">
               <p className='font-jua text-lg pb-1'>이메일</p>
