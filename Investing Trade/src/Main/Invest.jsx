@@ -51,7 +51,7 @@ const Invest = () => {
             <div className="w-full max-w-6xl  grid grid-cols-1 md:grid-cols-3 gap-10">
 
                 {/* 1. 뉴스 학습 카드 */}
-                <div className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl flex-1 cursor-pointer">
+                <div onClick={() => navigate('/News')} className="bg-white border-white border-4 border-solid hover:bg-red-500 active:scale-[0.98] transition-all rounded-[2rem] p-10 flex flex-col items-center shadow-xl flex-1 cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua  ">뉴스 학습</h2>
                     <div className="h-40 flex items-center mb-8 space-x-6">
                         {/* 전구 및 뉴스 아이콘 */}
@@ -66,7 +66,7 @@ const Invest = () => {
                 </div>
 
                 {/* 2. 모의 투자 카드 */}
-                <div className="bg-white rounded-[2rem] border-4 hover:bg-green-500 active:scale-[0.98] transition-all rounded-[2rem] border-white border-solid p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
+                <div onClick={() => navigate('/Trade')} className="bg-white rounded-[2rem] border-4 hover:bg-green-500 active:scale-[0.98] transition-all rounded-[2rem] border-white border-solid p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua">모의 투자</h2>
                     <div className="h-40 flex items-center mb-8 space-x-6">
                         <img src={invest} alt="investing-trade" className='w-32' />
@@ -80,7 +80,7 @@ const Invest = () => {
                 </div>
 
                 {/* 3. 내 포트폴리오 카드 */}
-                <div className="bg-white rounded-[2rem] border-4  hover:bg-blue-400 active:scale-[0.98] transition-all rounded-[2rem] border-solid border-white p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
+                <div onClick={() => navigate('/portfolio')} className="bg-white rounded-[2rem] border-4  hover:bg-blue-400 active:scale-[0.98] transition-all rounded-[2rem] border-solid border-white p-10 flex flex-col items-center shadow-xl min-h-[550px] cursor-pointer">
                     <h2 className="text-4xl mb-8 text-black font-jua">내 포트폴리오</h2>
                     <div className="h-40 flex items-center mb-8 space-x-6">
                         <img src={portfolio} alt="portfolio" className='w-32' />
