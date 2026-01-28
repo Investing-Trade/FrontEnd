@@ -80,7 +80,7 @@ const Portfolio = () => {
 
                                     <div className="overflow-hidden rounded-lg border border-gray-100 shadow-sm">
                                         <table className="w-full text-sm text-center">
-                                            <thead className="bg-gray-50 text-gray-500 font-medium">
+                                            <thead className="bg-gray-50 text-gray-500">
                                                 <tr className="h-9">
                                                     <th className="pl-3 text-left">종목</th>
                                                     <th>수량</th>
