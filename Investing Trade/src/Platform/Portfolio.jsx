@@ -4,7 +4,6 @@ import predictiveAnalytics from '../assets/predictive-chart.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import logout from '../assets/logout-1.png';
-import refresh from '../assets/re.png';
 import correction from '../assets/correction-tape.png';
 import dashboard from '../assets/dashboard.png';
 import bio from '../assets/bio-gas.png';
@@ -18,6 +17,8 @@ import setting from '../assets/stock-market.png';
 import process from '../assets/data-processing.png';
 import clock from '../assets/clock.png';
 import calendar from '../assets/calendar.png';
+import reset from '../assets/reset.png';
+import stocks from '../assets/stock-exchange.png';
 
 const Portfolio = () => {
     const navigate = useNavigate();
@@ -183,21 +184,22 @@ const Portfolio = () => {
                             </div>
 
                             {/* 액션 버튼 그룹 */}
-                            <div className="w-56 flex flex-col gap-3">
-                                <button onClick={() => navigate('/trading')} className="group flex-[1.2] bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg">
-                                    <span className="text-2xl group-hover:rotate-180 transition-transform duration-500">📈</span>
-                                    <span className="text-xl font-jua">투자하기</span>
+                            <div className="w-50 flex flex-col gap-8 mt-10">
+                                
+                                <button className="flex p-2 bg-red-600 cursor-pointer space-x-2 hover:bg-rose-700 text-white rounded-lg items-center border-2 border-gray-400 justify-center transition-all active:scale-95 shadow-lg">
+                                    <img src={reset} alt="reset" className='w-10 h-10' />
+                                    <span className="text-xl font-jua">내역 초기화</span>
                                 </button>
-                                <div className="flex flex-1 gap-2">
-                                    <button className="flex-1 bg-white border-2 border-gray-200 hover:border-indigo-400 rounded-xl flex items-center justify-center transition-all active:scale-95">
-                                        <img src={refresh} alt="reset" className="w-5 opacity-60" />
-                                    </button>
-                                    <button onClick={() => navigate('/main')} className="flex-[3] bg-gray-800 hover:bg-black text-white rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg">
-                                        <span className="text-sm font-jua">🏠 홈으로</span>
-                                    </button>
-                                </div>
+                                <button onClick={() => navigate('/trade')} className="flex p-2 space-x-2 bg-green-500 cursor-pointer hover:bg-green-800 border-2 border-gray-400 text-white rounded-lg items-center justify-center transition-all active:scale-95 shadow-lg">
+                                    <img src={setting} alt="stock" className='w-10 h-10' />
+                                    <span className="text-xl font-jua">모의 투자로 이동</span>
+                                </button>
+                                <button onClick={() => navigate('/invest')} className="flex space-x-2 p-2 bg-blue-600 cursor-pointer hover:bg-cyan-700 border-2 border-gray-400 text-white rounded-lg items-center justify-center transition-all active:scale-95 shadow-lg">
+                                    <img src={stocks} alt="stock" className='w-10 h-10' />
+                                    <span className="text-xl font-jua">메인으로 이동</span>
+                                </button>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
